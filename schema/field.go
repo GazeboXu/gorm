@@ -175,6 +175,9 @@ func (schema *Schema) ParseField(fieldStruct reflect.StructField) *Field {
 		field.Scale, _ = strconv.Atoi(s)
 	}
 
+	if fieldStruct.Type.Kind() != reflect.Ptr {
+		field.NotNull = true
+	}
 	if val, ok := field.TagSettings["NOT NULL"]; ok && utils.CheckTruth(val) {
 		field.NotNull = true
 	} else if val, ok := field.TagSettings["NOTNULL"]; ok && utils.CheckTruth(val) {
